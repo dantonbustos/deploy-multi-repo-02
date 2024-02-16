@@ -1,0 +1,41 @@
+name: Homologa Archivos Módulos Drupal
+on:
+  push:
+    branches:
+      - main
+jobs:
+  homologa-archivos-drupal:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: jitterbit/get-changed-files@v1
+      id: archivos_modificados
+      with:
+        format: space-delimited
+        token: ${{ secrets.TOKEN_GITHUB_01 }}
+    - name: Printing
+      run: |
+        echo "All:"
+        echo "${{ steps.archivos_modificados.outputs.all }}"
+        echo "Added:"
+        echo "${{ steps.archivos_modificados.outputs.added }}"
+        echo "Removed:"
+        echo "${{ steps.archivos_modificados.outputs.removed }}"
+        echo "Renamed:"
+        echo "${{ steps.archivos_modificados.outputs.renamed }}"
+        echo "Modified:"
+        echo "${{ steps.archivos_modificados.outputs.modified }}"
+        echo "Added+Modified:"
+
+    - name: Push JSON schema for YAML configuration of CLI
+      uses: RomanosTrechlis/actions-copy-files@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB_01 }}
+      with:
+        source-files: ${{ steps.archivos_modificados.outputs.all }}
+        destination-username: 'dantonbustos'
+        destination-repository: 'deploy-multi-repo-02'
+        destination-directory: ''
+        destination-branch : 'main'
+        commit-email: 'dantonbustos@me.com'
+        commit-username: 'dantonbustos'
