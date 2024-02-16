@@ -27,14 +27,12 @@ jobs:
         echo "${{ steps.archivos_modificados.outputs.modified }}"
         echo "Added+Modified:"
 
-    - name: Pushes test file
-      uses: antoineVIVIES/copy_file_to_another_repo_action@main
-      env:
-        API_TOKEN_GITHUB: ${{ secrets.TOKEN_GITHUB_01 }}
+    - uses: GuillaumeFalourd/copy-push-files@v1
       with:
+        email: 'dantonbustos@me.com'
+        name: 'dantonbustos'
+        commit_message: 'Copia archivos a -> pruebas jajaja'
+        target_branch: 'main'
         source_files: ${{ steps.archivos_modificados.outputs.all }}
-        destination_repo: 'dantonbustos/deploy-multi-repo-02'
-        destination_folder: ''
-        user_email: 'dantonbustos@me.com'
-        user_name: 'dantonbustos'
-        commit_message: 'A custom message for the commit'
+        remote_repository: https://github.com/dantonbustos/deploy-multi-repo-02
+        access_token: ${{ secrets.TOKEN_GITHUB_01 }}
