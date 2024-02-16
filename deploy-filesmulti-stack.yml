@@ -27,15 +27,14 @@ jobs:
         echo "${{ steps.archivos_modificados.outputs.modified }}"
         echo "Added+Modified:"
 
-    - name: Push JSON schema for YAML configuration of CLI
-      uses: RomanosTrechlis/actions-copy-files@master
+    - name: Pushes test file
+      uses: antoineVIVIES/copy_file_to_another_repo_action@main
       env:
-        GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB_01 }}
+        API_TOKEN_GITHUB: ${{ secrets.TOKEN_GITHUB_01 }}
       with:
-        source-files: ${{ steps.archivos_modificados.outputs.all }}
-        destination-username: 'dantonbustos'
-        destination-repository: 'deploy-multi-repo-02'
-        destination-directory: ''
-        destination-branch : 'main'
-        commit-email: 'dantonbustos@me.com'
-        commit-username: 'dantonbustos'
+        source_files: ${{ steps.archivos_modificados.outputs.all }}
+        destination_repo: 'dantonbustos/deploy-multi-repo-02'
+        destination_folder: ''
+        user_email: 'dantonbustos@me.com'
+        user_name: 'dantonbustos'
+        commit_message: 'A custom message for the commit'
